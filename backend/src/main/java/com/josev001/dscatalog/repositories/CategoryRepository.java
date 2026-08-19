@@ -1,4 +1,4 @@
-package com.josev001.dscatalog.Repositories;
+package com.josev001.dscatalog.repositories;
 
 
 import com.josev001.dscatalog.entities.Category;
