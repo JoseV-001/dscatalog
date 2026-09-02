@@ -9,20 +9,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryRepository Repository;
 
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll() {
-       List<Category> list = categoryRepository.findAll();
+       List<Category> list = Repository.findAll();
         return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
     }
-
-
+    @Transactional(readOnly = true)
+    public CategoryDTO findById(Long id){
+        Optional<Category> obj = Repository.findById(id);
+        Category entity = obj.get();//obtendo o objeto do tipo Category
+        return new CategoryDTO(entity);
+    }
 
 }
