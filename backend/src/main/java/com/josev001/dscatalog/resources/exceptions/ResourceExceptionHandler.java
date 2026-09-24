@@ -1,5 +1,6 @@
 package com.josev001.dscatalog.resources.exceptions;
 
+import com.josev001.dscatalog.services.exceptions.DatabaseException;
 import com.josev001.dscatalog.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,26 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
-        err.setStatus(HttpStatus.NOT_FOUND.value());
+        err.setStatus(status.value());
         err.setError("Resource not found");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);//permite customizar a resposta de erro, retornando um objeto StandardError com informações detalhadas sobre o erro ocorrido
+        return ResponseEntity.status(status).body(err);//permite customizar a resposta de erro, retornando um objeto StandardError com informações detalhadas sobre o erro ocorrido
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Database exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);//permite customizar a resposta de erro, retornando um objeto StandardError com informações detalhadas sobre o erro ocorrido
     }
 
 }

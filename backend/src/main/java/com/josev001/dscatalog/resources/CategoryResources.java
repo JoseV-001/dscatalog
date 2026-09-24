@@ -43,4 +43,11 @@ public class CategoryResources {
         return ResponseEntity.ok().body(dto);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.noContent().build(); // Da uma resposta 204 (No Content) para indicar que a exclusão foi bem-sucedida, mas não há conteúdo a ser retornado no corpo da resposta
+    }
+
+
 }
