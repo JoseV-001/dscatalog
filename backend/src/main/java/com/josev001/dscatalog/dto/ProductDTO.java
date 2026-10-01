@@ -1,11 +1,13 @@
 package com.josev001.dscatalog.dto;
 
 import com.josev001.dscatalog.entities.Product;
+import com.josev001.dscatalog.entities.Category;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,9 +42,9 @@ public class ProductDTO implements Serializable {
         this.date = entity.getDate();
     }
 
-    public ProductDTO(Product entity, List<CategoryDTO> categories) {
+    public ProductDTO(Product entity, Set<Category> categories) {
         this(entity);
-        categories.forEach(cat -> this.categories.add(cat));
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 
     }
 
